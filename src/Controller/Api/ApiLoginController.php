@@ -13,16 +13,15 @@ use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 /**
- * Contrôleur d'authentification API.
- * Gère la connexion via l'API et la génération de tokens JWT.
+ * API authentication controller.
+ * Handles API login and JWT token generation.
  */
 #[Route('/api')]
 class ApiLoginController extends AbstractController
 {
     /**
-     * Authentifie un utilisateur via l'API et retourne un token JWT.
-     * Vérifie les identifiants, le mot de passe et l'activation de l'accès API.
-     * Retourne 400 si identifiants manquants, 401 si invalides, 403 si API désactivée.
+     * Authenticates a user via the API and returns a JWT token.
+     * Returns 400 if credentials missing, 401 if invalid, 403 if API access disabled.
      */
     #[Route('/login', name: 'api_login', methods: ['POST'])]
     public function login(
@@ -47,12 +46,10 @@ class ApiLoginController extends AbstractController
             return new JsonResponse(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
-        // Check if API access is enabled
         if (!$user->isApiAccess()) {
             return new JsonResponse(['error' => 'API access not enabled'], Response::HTTP_FORBIDDEN);
         }
 
-        // Generate JWT token
         $token = $jwtManager->create($user);
 
         return new JsonResponse(['token' => $token], Response::HTTP_OK);

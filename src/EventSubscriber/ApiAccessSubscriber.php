@@ -11,8 +11,8 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Vérifie que l'utilisateur authentifié a bien l'accès API activé
- * sur toutes les routes /api (sauf /api/login).
+ * Checks that the authenticated user has API access enabled
+ * on all /api routes (except /api/login).
  */
 class ApiAccessSubscriber implements EventSubscriberInterface
 {
@@ -22,7 +22,6 @@ class ApiAccessSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        // Priorité basse pour s'exécuter après l'authentification JWT du firewall
         return [
             KernelEvents::REQUEST => ['onKernelRequest', -10],
         ];
@@ -33,7 +32,6 @@ class ApiAccessSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $path = $request->getPathInfo();
 
-        // Ne concerne que les routes /api sauf /api/login
         if (!str_starts_with($path, '/api') || $path === '/api/login') {
             return;
         }

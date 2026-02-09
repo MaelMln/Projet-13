@@ -7,8 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Repository pour l'entité OrderItem.
- * Utilise les méthodes héritées de ServiceEntityRepository.
+ * OrderItem repository.
  *
  * @extends ServiceEntityRepository<OrderItem>
  */

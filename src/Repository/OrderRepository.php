@@ -8,8 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Repository pour l'entité Order.
- * Fournit les requêtes personnalisées pour les commandes (panier, commandes validées).
+ * Order repository.
+ * Provides custom queries for orders (cart, validated orders).
  *
  * @extends ServiceEntityRepository<Order>
  */
@@ -21,7 +21,7 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find the current cart for a user
+     * Finds the current cart for a user.
      */
     public function findCartByUser(User $user): ?Order
     {
@@ -35,7 +35,8 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find validated orders for a user
+     * Finds validated orders for a user, sorted by date descending.
+     *
      * @return Order[]
      */
     public function findValidatedOrdersByUser(User $user): array

@@ -10,9 +10,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 /**
- * Formulaire d'ajout au panier.
- * Permet de saisir une quantité pour un produit.
- * Le label du bouton s'adapte selon si le produit est déjà dans le panier.
+ * Add-to-cart form.
+ * Allows entering a quantity for a product.
+ * The submit button label adapts based on whether the product is already in the cart.
  */
 class AddToCartType extends AbstractType
 {

@@ -6,8 +6,8 @@ use App\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entité représentant une ligne de commande.
- * Associe un produit à une commande avec une quantité et un prix unitaire figé.
+ * Order item entity.
+ * Links a product to an order with a quantity and a frozen unit price.
  */
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 class OrderItem
@@ -57,7 +57,6 @@ class OrderItem
     {
         $this->product = $product;
 
-        // Set unit price from product when setting the product
         if ($product !== null && $this->unitPrice === 0.0) {
             $this->unitPrice = $product->getPrice() ?? 0;
         }
@@ -90,7 +89,7 @@ class OrderItem
     }
 
     /**
-     * Calcule le sous-total de la ligne (quantité x prix unitaire).
+     * Calculates the line subtotal (quantity x unit price).
      */
     public function getTotal(): float
     {

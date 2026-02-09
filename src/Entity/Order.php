@@ -8,9 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entité représentant une commande.
- * Une commande peut avoir le statut 'cart' (panier en cours) ou 'validated' (commande validée).
- * Le nom de table est échappé car 'order' est un mot réservé SQL.
+ * Order entity.
+ * Can have status 'cart' (current cart) or 'validated' (confirmed order).
+ * Table name is escaped because 'order' is a SQL reserved word.
  */
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -107,7 +107,6 @@ class Order
     public function removeItem(OrderItem $item): static
     {
         if ($this->items->removeElement($item)) {
-            // set the owning side to null (unless already changed)
             if ($item->getOrderRef() === $this) {
                 $item->setOrderRef(null);
             }
@@ -117,7 +116,7 @@ class Order
     }
 
     /**
-     * Calcule le montant total de la commande (somme des totaux de chaque item).
+     * Calculates the order total (sum of all item totals).
      */
     public function getTotal(): float
     {
@@ -129,7 +128,7 @@ class Order
     }
 
     /**
-     * Retourne le nombre total d'articles dans la commande (somme des quantités).
+     * Returns the total number of items in the order (sum of quantities).
      */
     public function getItemCount(): int
     {
@@ -141,8 +140,7 @@ class Order
     }
 
     /**
-     * Recherche un item de commande correspondant au produit donné.
-     * Retourne null si le produit n'est pas dans la commande.
+     * Finds the order item matching the given product, or null if not found.
      */
     public function getItemForProduct(Product $product): ?OrderItem
     {
@@ -155,7 +153,7 @@ class Order
     }
 
     /**
-     * Supprime tous les items de la commande.
+     * Removes all items from the order.
      */
     public function clearItems(): void
     {

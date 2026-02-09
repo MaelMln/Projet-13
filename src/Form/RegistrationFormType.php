@@ -16,8 +16,8 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Formulaire d'inscription utilisateur.
- * Champs : prénom, nom, email, mot de passe (avec confirmation) et acceptation des CGU.
+ * User registration form.
+ * Fields: first name, last name, email, password (with confirmation) and terms acceptance.
  */
 class RegistrationFormType extends AbstractType
 {

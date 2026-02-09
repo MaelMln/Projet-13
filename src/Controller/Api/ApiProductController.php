@@ -10,16 +10,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Contrôleur API des produits.
- * Fournit l'accès aux données produits au format JSON.
- * Nécessite une authentification JWT.
+ * API products controller.
+ * Provides product data as JSON. Requires JWT authentication.
  */
 #[Route('/api')]
 class ApiProductController extends AbstractController
 {
     /**
-     * Retourne la liste de tous les produits au format JSON.
-     * Utilise le groupe de sérialisation 'api:product:read'.
+     * Returns all products as JSON using the 'api:product:read' serialization group.
      */
     #[Route('/products', name: 'api_products', methods: ['GET'])]
     public function index(

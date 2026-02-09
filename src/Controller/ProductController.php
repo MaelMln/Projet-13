@@ -15,16 +15,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Contrôleur de la page produit.
- * Gère l'affichage du détail d'un produit et l'ajout au panier.
+ * Product page controller.
+ * Handles product detail display and cart management.
  */
 #[Route('/product')]
 class ProductController extends AbstractController
 {
     /**
-     * Affiche le détail d'un produit et gère l'ajout/mise à jour du panier.
-     * Si l'utilisateur est connecté, le formulaire permet d'ajouter ou modifier la quantité.
-     * Une quantité de 0 retire le produit du panier.
+     * Displays product detail and handles cart add/update.
+     * A quantity of 0 removes the product from the cart.
      */
     #[Route('/{id}', name: 'app_product_show', methods: ['GET', 'POST'])]
     public function show(
@@ -57,7 +56,6 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() && $user) {
             $quantity = $form->get('quantity')->getData();
 
-            // Create cart if doesn't exist
             if (!$cart) {
                 $cart = new Order();
                 $cart->setUser($user);
@@ -67,10 +65,8 @@ class ProductController extends AbstractController
 
             if ($quantity > 0) {
                 if ($existingItem) {
-                    // Update existing item
                     $existingItem->setQuantity($quantity);
                 } else {
-                    // Add new item
                     $item = new OrderItem();
                     $item->setProduct($product);
                     $item->setQuantity($quantity);
@@ -78,7 +74,6 @@ class ProductController extends AbstractController
                     $cart->addItem($item);
                 }
             } else {
-                // Remove item if quantity is 0
                 if ($existingItem) {
                     $cart->removeItem($existingItem);
                     $entityManager->remove($existingItem);

@@ -12,9 +12,9 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Fixtures principales de l'application.
- * Crée un utilisateur de test et 5 commandes validées avec des produits.
- * Dépend de ProductFixtures pour les produits en base.
+ * Main application fixtures.
+ * Creates a test user and 5 validated orders with products.
+ * Depends on ProductFixtures.
  */
 class AppFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -25,7 +25,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        // Create test user
         $user = new User();
         $user->setEmail('client@greengoodies.fr');
         $user->setFirstName('Marie');
@@ -34,10 +33,8 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($user);
         $manager->flush();
 
-        // Get all products for order items
         $products = $manager->getRepository(Product::class)->findAll();
 
-        // Create 5 validated orders
         $dates = [
             new \DateTimeImmutable('2024-01-01'),
             new \DateTimeImmutable('2024-01-01'),
@@ -52,7 +49,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $order->setStatus(Order::STATUS_VALIDATED);
             $order->setValidatedAt($date);
 
-            // Ajout de 3 produits par commande (total : 97,20€)
             $item1 = new OrderItem();
             $item1->setProduct($products[0]); // Kit couvert 12.30€
             $item1->setQuantity(3);
@@ -70,8 +66,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $item3->setQuantity(5);
             $item3->setUnitPrice($products[4]->getPrice());
             $order->addItem($item3);
-
-            // Total : 36,90 + 37,80 + 22,50 = 97,20€
 
             $manager->persist($order);
         }

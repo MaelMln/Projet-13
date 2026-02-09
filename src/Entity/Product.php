@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Entité représentant un produit du catalogue.
- * Exposée via l'API avec le groupe de sérialisation 'api:product:read'.
+ * Product entity.
+ * Exposed via the API with the 'api:product:read' serialization group.
  */
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -139,7 +139,6 @@ class Product
     public function removeOrderItem(OrderItem $orderItem): static
     {
         if ($this->orderItems->removeElement($orderItem)) {
-            // set the owning side to null (unless already changed)
             if ($orderItem->getProduct() === $this) {
                 $orderItem->setProduct(null);
             }

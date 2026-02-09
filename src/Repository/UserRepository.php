@@ -10,8 +10,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
- * Repository pour l'entité User.
- * Implémente PasswordUpgraderInterface pour le rehachage automatique des mots de passe.
+ * User repository.
+ * Implements PasswordUpgraderInterface for automatic password rehashing.
  *
  * @extends ServiceEntityRepository<User>
  */

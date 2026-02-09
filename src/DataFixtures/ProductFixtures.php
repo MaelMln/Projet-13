@@ -7,8 +7,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 /**
- * Fixtures des produits.
- * Insère les 6 produits du catalogue GreenGoodies en base de données.
+ * Product fixtures.
+ * Seeds the database with the 6 GreenGoodies catalog products.
  */
 class ProductFixtures extends Fixture
 {

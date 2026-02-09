@@ -13,14 +13,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Contrôleur de l'inscription.
- * Gère la création de nouveaux comptes utilisateurs.
+ * Registration controller.
+ * Handles new user account creation.
  */
 class RegistrationController extends AbstractController
 {
     /**
-     * Affiche et traite le formulaire d'inscription.
-     * Après inscription réussie, l'utilisateur est automatiquement connecté.
+     * Displays and processes the registration form.
+     * Automatically logs in the user after successful registration.
      */
     #[Route('/register', name: 'app_register')]
     public function register(
@@ -29,7 +29,6 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         Security $security
     ): Response {
-        // Redirect if already logged in
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
@@ -39,7 +38,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -50,7 +48,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Automatically log in the user after registration
             $security->login($user, 'form_login', 'main');
 
             return $this->redirectToRoute('app_home');

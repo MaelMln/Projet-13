@@ -12,15 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Contrôleur du compte utilisateur.
- * Gère l'affichage du compte, l'activation/désactivation de l'accès API
- * et la suppression du compte.
+ * User account controller.
+ * Handles account display, API access toggle and account deletion.
  */
 #[Route('/account')]
 class AccountController extends AbstractController
 {
     /**
-     * Affiche la page du compte avec l'historique des commandes validées.
+     * Displays the account page with validated order history.
      */
     #[Route('', name: 'app_account')]
     public function index(OrderRepository $orderRepository): Response
@@ -35,13 +34,11 @@ class AccountController extends AbstractController
     }
 
     /**
-     * Active ou désactive l'accès API pour l'utilisateur connecté.
-     * Vérifie le token CSRF avant de modifier l'accès.
+     * Toggles API access for the current user.
      */
     #[Route('/toggle-api', name: 'app_account_toggle_api', methods: ['POST'])]
     public function toggleApi(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Vérification du token CSRF
         if (!$this->isCsrfTokenValid('toggle-api', $request->request->get('_token'))) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_account');
@@ -63,8 +60,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * Supprime le compte de l'utilisateur connecté.
-     * Déconnecte l'utilisateur, puis supprime toutes ses commandes et son compte.
+     * Deletes the current user's account and logs them out.
      */
     #[Route('/delete', name: 'app_account_delete', methods: ['POST'])]
     public function delete(
@@ -75,7 +71,6 @@ class AccountController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        // Check CSRF token
         if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_account');
@@ -84,7 +79,6 @@ class AccountController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
 
-        // Déconnexion après suppression (le flash doit être ajouté avant le logout)
         $this->addFlash('success', 'Votre compte a été supprimé.');
         $security->logout(false);
 

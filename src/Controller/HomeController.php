@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Contrôleur de la page d'accueil.
- * Affiche la liste de tous les produits disponibles.
+ * Homepage controller.
+ * Displays all available products.
  */
 class HomeController extends AbstractController
 {
     /**
-     * Affiche la page d'accueil avec la liste des produits.
+     * Renders the homepage with the product listing.
      */
     #[Route('/', name: 'app_home')]
     public function index(ProductRepository $productRepository): Response

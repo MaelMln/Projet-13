@@ -7,8 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Repository pour l'entité Product.
- * Fournit les méthodes d'accès aux produits en base de données.
+ * Product repository.
  *
  * @extends ServiceEntityRepository<Product>
  */

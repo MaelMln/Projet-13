@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Contrôleur du panier.
- * Gère l'affichage, la validation et le vidage du panier de l'utilisateur.
+ * Cart controller.
+ * Handles cart display, validation and clearing.
  */
 #[Route('/cart')]
 class CartController extends AbstractController
 {
     /**
-     * Affiche le contenu du panier de l'utilisateur connecté.
+     * Displays the current user's cart contents.
      */
     #[Route('', name: 'app_cart')]
     public function index(OrderRepository $orderRepository): Response
@@ -34,8 +34,7 @@ class CartController extends AbstractController
     }
 
     /**
-     * Valide le panier en cours et le transforme en commande.
-     * Vérifie le token CSRF et que le panier n'est pas vide.
+     * Validates the cart and turns it into an order.
      */
     #[Route('/validate', name: 'app_cart_validate', methods: ['POST'])]
     public function validate(
@@ -43,7 +42,6 @@ class CartController extends AbstractController
         OrderRepository $orderRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        // Vérification du token CSRF
         if (!$this->isCsrfTokenValid('cart-validate', $request->request->get('_token'))) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_cart');
@@ -58,7 +56,6 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 
-        // Validate the order
         $cart->setStatus(Order::STATUS_VALIDATED);
         $cart->setValidatedAt(new \DateTimeImmutable());
 
@@ -70,8 +67,7 @@ class CartController extends AbstractController
     }
 
     /**
-     * Vide entièrement le panier de l'utilisateur.
-     * Supprime tous les items et la commande associée.
+     * Clears the user's cart entirely.
      */
     #[Route('/clear', name: 'app_cart_clear', methods: ['POST'])]
     public function clear(
@@ -79,7 +75,6 @@ class CartController extends AbstractController
         OrderRepository $orderRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        // Vérification du token CSRF
         if (!$this->isCsrfTokenValid('cart-clear', $request->request->get('_token'))) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_cart');
