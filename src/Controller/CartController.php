@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\User;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class CartController extends AbstractController
     #[Route('', name: 'app_cart')]
     public function index(OrderRepository $orderRepository): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
         $cart = $orderRepository->findCartByUser($user);
 
@@ -47,6 +49,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 
+        /** @var User $user */
         $user = $this->getUser();
         $cart = $orderRepository->findCartByUser($user);
 
@@ -82,6 +85,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 
+        /** @var User $user */
         $user = $this->getUser();
         $cart = $orderRepository->findCartByUser($user);
 

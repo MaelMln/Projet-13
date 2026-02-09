@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Form\AddToCartType;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ class ProductController extends AbstractController
         OrderRepository $orderRepository,
         EntityManagerInterface $entityManager
     ): Response {
+        /** @var User|null $user */
         $user = $this->getUser();
         $cart = null;
         $existingItem = null;
@@ -72,7 +74,7 @@ class ProductController extends AbstractController
                     $item = new OrderItem();
                     $item->setProduct($product);
                     $item->setQuantity($quantity);
-                    $item->setUnitPrice($product->getPrice());
+                    $item->setUnitPrice($product->getPrice() ?? 0);
                     $cart->addItem($item);
                 }
             } else {

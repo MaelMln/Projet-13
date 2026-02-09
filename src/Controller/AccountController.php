@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,7 @@ class AccountController extends AbstractController
     #[Route('', name: 'app_account')]
     public function index(OrderRepository $orderRepository): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
         $orders = $orderRepository->findValidatedOrdersByUser($user);
 
@@ -45,6 +47,7 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
 
+        /** @var User $user */
         $user = $this->getUser();
         $user->setApiAccess(!$user->isApiAccess());
 
@@ -69,6 +72,7 @@ class AccountController extends AbstractController
         EntityManagerInterface $entityManager,
         Security $security
     ): Response {
+        /** @var User $user */
         $user = $this->getUser();
 
         // Check CSRF token

@@ -26,10 +26,10 @@ class OrderItem
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?int $quantity = 1;
+    private int $quantity = 1;
 
     #[ORM\Column]
-    private ?float $unitPrice = null;
+    private float $unitPrice = 0;
 
     public function getId(): ?int
     {
@@ -58,14 +58,14 @@ class OrderItem
         $this->product = $product;
 
         // Set unit price from product when setting the product
-        if ($product !== null && $this->unitPrice === null) {
-            $this->unitPrice = $product->getPrice();
+        if ($product !== null && $this->unitPrice === 0.0) {
+            $this->unitPrice = $product->getPrice() ?? 0;
         }
 
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
@@ -77,7 +77,7 @@ class OrderItem
         return $this;
     }
 
-    public function getUnitPrice(): ?float
+    public function getUnitPrice(): float
     {
         return $this->unitPrice;
     }
