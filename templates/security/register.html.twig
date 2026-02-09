@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - GreenGoodies{% endblock %}
+
+{% block body %}
+    <div class="auth-page">
+        <div class="auth-page__image">
+            <img src="{{ asset('images/register-bg.jpg') }}" alt="Inscription" loading="lazy">
+        </div>
+        <div class="auth-page__content">
+            <h1 class="auth-page__title">Inscription</h1>
+
+            <p class="form__note">Tous les champs sont obligatoires</p>
+
+            {{ form_start(registrationForm, {'attr': {'class': 'form'}}) }}
+                <div class="form__group">
+                    {{ form_label(registrationForm.lastName, 'Nom', {'label_attr': {'class': 'form__label'}}) }}
+                    {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form__input'}}) }}
+                    {{ form_errors(registrationForm.lastName) }}
+                </div>
+
+                <div class="form__group">
+                    {{ form_label(registrationForm.firstName, 'Prénom', {'label_attr': {'class': 'form__label'}}) }}
+                    {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form__input'}}) }}
+                    {{ form_errors(registrationForm.firstName) }}
+                </div>
+
+                <div class="form__group">
+                    {{ form_label(registrationForm.email, 'Adresse email', {'label_attr': {'class': 'form__label'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form__input'}}) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+
+                <div class="form__group">
+                    {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'form__label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form__input'}}) }}
+                    {{ form_errors(registrationForm.plainPassword.first) }}
+                </div>
+
+                <div class="form__group">
+                    {{ form_label(registrationForm.plainPassword.second, 'Confirmation mot de passe', {'label_attr': {'class': 'form__label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form__input'}}) }}
+                    {{ form_errors(registrationForm.plainPassword.second) }}
+                </div>
+
+                <div class="form__checkbox">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    <label for="{{ registrationForm.agreeTerms.vars.id }}">J'accepte les CGU de GreenGoodies</label>
+                </div>
+                {{ form_errors(registrationForm.agreeTerms) }}
+
+                <div class="form__submit">
+                    <button type="submit" class="btn btn--secondary btn--full-width">S'inscrire</button>
+                </div>
+            {{ form_end(registrationForm) }}
+
+            <p class="form__link">
+                <a href="{{ path('app_login') }}">Déjà un compte ? Se connecter</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
