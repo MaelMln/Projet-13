@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - GreenGoodies{% endblock %}
+
+{% block body %}
+    {# Hero Section - 2 colonnes #}
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Bienvenue</h1>
+            <div class="hero__text">
+                <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable.</p>
+                <p>Retrouvez des articles originaux, des accessoires & boissons de qualité.</p>
+            </div>
+        </div>
+        <div class="hero__image">
+            <img src="{{ asset('images/first-hero-img.jpg') }}" alt="Produits écologiques" loading="lazy">
+        </div>
+    </section>
+
+    {# Products Section #}
+    <section id="products" class="section">
+        <h2 class="section__title">Nos produits</h2>
+        <div class="products-grid">
+            {% for product in products %}
+                <article class="product-card">
+                    <div class="product-card__image-container">
+                        <img src="{{ asset('images/products/' ~ product.picture) }}"
+                             alt="{{ product.name }}"
+                             class="product-card__image"
+                             loading="lazy">
+                    </div>
+                    <div class="product-card__content">
+                        <h3 class="product-card__name">{{ product.name }}</h3>
+                        <p class="product-card__description">{{ product.shortDescription }}</p>
+                        <p class="product-card__price">{{ product.price|number_format(2, ',', ' ') }}&euro;</p>
+                        <a href="{{ path('app_product_show', {id: product.id}) }}" class="product-card__link">Voir le produit</a>
+                    </div>
+                </article>
+            {% else %}
+                <p>Aucun produit disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# Notre Conviction Section #}
+    <section class="conviction-section">
+        <div class="conviction-section__content">
+            <h2 class="conviction-section__title">Notre Conviction</h2>
+            <p class="conviction-section__text">
+                Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être
+                pour la planète et ses habitants. Notre mission est de vous proposer une sélection rigoureuse
+                de produits qui allient qualité, durabilité et éthique
+            </p>
+        </div>
+        <div class="conviction-section__image">
+            <img src="{{ asset('images/notre-conviction.jpg') }}" alt="Notre conviction" loading="lazy">
+        </div>
+    </section>
+
+    {# Nos Valeurs Section #}
+    <section class="values-section">
+        <div class="values-section__image">
+            <img src="{{ asset('images/nos-valeurs.jpg') }}" alt="Nos valeurs" loading="lazy">
+        </div>
+        <div class="values-section__content">
+            <h2 class="values-section__title">Nos Valeurs</h2>
+            <p class="values-section__text">
+                Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.
+                Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.
+                Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.
+            </p>
+        </div>
+    </section>
+{% endblock %}
