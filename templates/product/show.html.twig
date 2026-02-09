@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - GreenGoodies{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert--success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="product-detail">
+        <div class="product-detail__image-container">
+            <img src="{{ asset('images/products/' ~ product.picture) }}"
+                 alt="{{ product.name }}"
+                 class="product-detail__image"
+                 loading="lazy">
+        </div>
+        <div class="product-detail__info">
+            <h1 class="product-detail__name">{{ product.name }}</h1>
+            <p class="product-detail__price">{{ product.price|number_format(2, ',', ' ') }}&euro;</p>
+            <p class="product-detail__description-label">Description</p>
+            <div class="product-detail__description">
+                {{ product.fullDescription|nl2br }}
+            </div>
+
+            {% if app.user %}
+                {{ form_start(form) }}
+                    <div class="product-detail__quantity">
+                        {{ form_label(form.quantity, null, {'label_attr': {'class': 'form__label'}}) }}
+                        {{ form_widget(form.quantity) }}
+                        {{ form_errors(form.quantity) }}
+                    </div>
+                    {{ form_widget(form._token) }}
+                    {{ form_widget(form.submit) }}
+                {{ form_end(form, {'render_rest': false}) }}
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn btn--secondary btn--full-width">
+                    Connectez-vous pour ajouter au panier
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
