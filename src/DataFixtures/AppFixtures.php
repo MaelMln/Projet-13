@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -34,7 +35,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         // Get all products for order items
-        $products = $manager->getRepository(\App\Entity\Product::class)->findAll();
+        $products = $manager->getRepository(Product::class)->findAll();
 
         // Create 5 validated orders
         $dates = [
