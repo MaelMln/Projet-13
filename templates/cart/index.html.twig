@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier - GreenGoodies{% endblock %}
+
+{% block body %}
+    <div class="cart-page">
+        <h1 class="cart-page__title">Mon panier</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert--success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert--error">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="cart">
+            {% if cart and cart.items|length > 0 %}
+                <div class="cart-page__clear">
+                    <form action="{{ path('app_cart_clear') }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token('cart-clear') }}">
+                        <button type="submit">x Vider le panier</button>
+                    </form>
+                </div>
+
+                <div class="cart__items">
+                    {% for item in cart.items %}
+                        <div class="cart__item">
+                            <img src="{{ asset('images/products/' ~ item.product.picture) }}"
+                                 alt="{{ item.product.name }}"
+                                 class="cart__item-image"
+                                 loading="lazy">
+                            <div class="cart__item-info">
+                                <div class="cart__item-name">{{ item.product.name }}</div>
+                                <div class="cart__item-quantity">Quantité : {{ item.quantity }}</div>
+                                <div class="cart__item-unit-price">Prix unitaire : {{ item.unitPrice|number_format(2, ',', ' ') }}&euro;</div>
+                                <div class="cart__item-price">{{ item.total|number_format(2, ',', ' ') }}&euro;</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="cart__summary">
+                    <div class="cart__total">Total panier : {{ cart.total|number_format(2, ',', ' ') }}&euro;</div>
+                    <div class="cart__shipping">Frais de livraison : Offert</div>
+                </div>
+
+                <div class="cart__actions">
+                    <form action="{{ path('app_cart_validate') }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token('cart-validate') }}">
+                        <button type="submit" class="btn btn--secondary btn--full-width">Valider la commande</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="cart__empty">
+                    <p>Votre panier est vide.</p>
+                    <a href="{{ path('app_home') }}" class="btn btn--secondary">Voir nos produits</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
