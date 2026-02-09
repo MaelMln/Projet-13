@@ -90,13 +90,6 @@ class CartController extends AbstractController
         $cart = $orderRepository->findCartByUser($user);
 
         if ($cart) {
-            // Remove all items
-            foreach ($cart->getItems() as $item) {
-                $entityManager->remove($item);
-            }
-            $cart->clearItems();
-
-            // Remove the cart itself
             $entityManager->remove($cart);
             $entityManager->flush();
 
