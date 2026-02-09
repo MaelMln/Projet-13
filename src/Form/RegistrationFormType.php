@@ -56,8 +56,8 @@ class RegistrationFormType extends AbstractType
                         ),
                         new Length(
                             min: 6,
-                            minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-                            max: 4096,
+							max: 4096,
+							minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
                         ),
                     ],
                 ],
