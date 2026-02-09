@@ -81,13 +81,6 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
 
-        // Suppression de toutes les commandes et du compte utilisateur
-        foreach ($user->getOrders() as $order) {
-            foreach ($order->getItems() as $item) {
-                $entityManager->remove($item);
-            }
-            $entityManager->remove($order);
-        }
         $entityManager->remove($user);
         $entityManager->flush();
 
